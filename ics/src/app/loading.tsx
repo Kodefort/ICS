@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
         <img
-          src="/logo.png"
+          src="/logo_only.jpg"
           alt="School Logo"
           className="w-36 h-36 object-contain animate-logo"
         />
