@@ -2,7 +2,7 @@
 
 import { useEffect, useState, ReactNode } from "react";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children?: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
-        <svg width="360" height="160" viewBox="0 0 600 260" fill="none">
+        <div className="w-full max-w-md px-4">
+          <svg width="100%" height="auto" viewBox="0 0 600 260" fill="none" className="max-w-full h-auto">
           <defs>
             <linearGradient id="icsGrad" x1="80" y1="130" x2="520" y2="130" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stopColor="#0B2240" />
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             className="infinity-path"
           />
         </svg>
+        </div>
       </div>
     );
   }
