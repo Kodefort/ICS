@@ -10,7 +10,6 @@ export default function Header() {
 
         <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
 
-          {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> */}
           <div className="flex flex-col md:flex-row justify-between items-center py-4">
             {/* Logo and Title */}
             <div className="flex-shrink-0 flex flex-col items-center space-y-2">
