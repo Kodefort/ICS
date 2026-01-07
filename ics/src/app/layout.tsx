@@ -3,6 +3,7 @@ import { Urbanist, Lilex } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 import IntroLoader from "./IntroLoader";
+import SubHeader from "@/components/SubHeader";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -34,6 +35,7 @@ export default function RootLayout({
       > 
         <IntroLoader />
         <Header />
+        <SubHeader />
         {children}
       </body>
     </html>
