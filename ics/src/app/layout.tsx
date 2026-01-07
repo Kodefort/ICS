@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Urbanist, Lilex } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
+import IntroLoader from "./IntroLoader";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -30,7 +31,8 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${urbanist.variable} ${lilex.variable} antialiased`}
-      >
+      > 
+        <IntroLoader />
         <Header />
         {children}
       </body>
