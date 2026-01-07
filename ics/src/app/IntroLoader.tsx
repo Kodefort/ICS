@@ -33,7 +33,7 @@ export default function IntroLoader() {
             <div className="flex flex-col items-center">
               <div className="logo-flame-glow">
                 <Image
-                  src="/logo_small_version.jpg"
+                  src="/logo_code.jpg"
                   alt="Infinite Code School"
                   width={110}
                   height={110}

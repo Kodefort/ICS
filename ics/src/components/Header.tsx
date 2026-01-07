@@ -23,14 +23,14 @@ export default function Header() {
               <div className="flex items-center gap-3 justify-center">
   <Link href="/" className="shrink-0">
     <Image
-      src="/logo_small_version.jpg"
+      src="/logo_code.jpg"
       alt="ICS Logo"
       width={60}
       height={60}
       className="block md:hidden h-14 w-auto hover:scale-105 transition-transform duration-200"
     />
     <Image
-      src="/logo_small_version.jpg"
+      src="/logo_code.jpg"
       alt="ICS Logo"
       width={60}
       height={60}
