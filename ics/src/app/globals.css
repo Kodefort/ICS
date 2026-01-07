@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: hsl(0, 0%, 100%);
   --foreground: #171717;
 }
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 
 @theme inline {
   --color-background: var(--background);

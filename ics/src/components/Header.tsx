@@ -8,7 +8,9 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 bg-gray-50 shadow-lg border-b border-gray-200 z-50">
+    
+    <header className="sticky top-0  bg-white shadow-lg border-b border-gray-200 z-50">
+      <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-center py-4">
           {/* Logo and Title */}
@@ -23,7 +25,7 @@ export default function Header() {
                   className="block md:hidden h-20 w-auto hover:scale-105 transition-transform duration-200"
                 />
                 <Image
-                  src="/logo_full.jpg"
+                  src="/logo_only.jpg"
                   alt="ICS Logo"
                   width={80}
                   height={80}
@@ -31,18 +33,28 @@ export default function Header() {
                 />
               </Link>
               <Link href="/">
-                <h1 className="text-xl sm:text-2xl md:text-3xl font-mono font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent flex items-center">
-                  <span className="text-blue-400 mr-1">&lt;</span>
-                  Infinite Code School
-                  <span className="text-blue-400 ml-1">/&gt;</span>
+              <div className="container flex flex-col items-center justify-center">
+
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-mono font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent flex items-center">
+          
+                  अपरिमित कोडिंग विद्यालय
                 </h1>
+                <h1 className="text-l sm:text-3xl md:text-2xl font-mono font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent flex items-center">
+          
+                  
+                  <span className="text-blue-400 mr-1"></span>
+                  Infinite Code School
+                  <span className="text-blue-400 ml-1"></span>
+                </h1>
+              </div>
+             
               </Link>
             </div>
             <p className="text-sm sm:text-base md:text-lg font-sans italic text-slate-600 text-center">
               Learning for Brighter Future
             </p>
           </div>
-
+          </div>
           {/* Mobile menu button - below header on mobile */}
           <div className="md:hidden flex justify-center py-2">
             <button
