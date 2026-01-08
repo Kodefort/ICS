@@ -78,17 +78,18 @@ export default function SubHeader() {
 
               {/* Submenu */}
               {item.subItems && item.subItems.length > 0 && (
-                <div className="absolute top-full left-0 w-56 bg-white shadow-xl rounded-b-lg border border-gray-100 opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-300 transform translate-y-2 group-hover/main:translate-y-0 z-50">
-                  <div className="py-2">
+                <div className="absolute top-full left-0 w-72 bg-white/95 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] rounded-b-xl rounded-tr-xl border-t-2 border-t-blue-500 border-x border-b border-gray-100/50 opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-300 transform translate-y-4 group-hover/main:translate-y-2 z-50 overflow-hidden ring-1 ring-black/5">
+                  <div className="py-3 p-2 grid gap-1">
                     {item.subItems.map((subItem) => (
                       <Link
                         key={subItem.label}
                         href={subItem.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium transition-colors duration-150 group/sub"
+                        className="block px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-white rounded-lg font-medium transition-all duration-200 group/sub"
                       >
-                        <span className="relative inline-block">
+                        <span className="relative inline-flex items-center">
+                          {/* Animated dot on hover */}
+                          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 opacity-0 -translate-x-2 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all duration-300"></span>
                           {subItem.label}
-                          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-500 transform scale-x-0 group-hover/sub:scale-x-100 transition-transform duration-300 origin-left"></span>
                         </span>
                       </Link>
                     ))}
