@@ -3,14 +3,22 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function IntroLoader() {
-  const [show, setShow] = useState(true);
+  const pathname = usePathname();
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setShow(false), 2000); // show for 2s
-    return () => clearTimeout(t);
-  }, []);
+    // Only show on home page ('/')
+    if (pathname === "/") {
+      setShow(true);
+      const t = setTimeout(() => setShow(false), 2000); // show for 2s
+      return () => clearTimeout(t);
+    } else {
+      setShow(false);
+    }
+  }, [pathname]);
 
   return (
     <AnimatePresence>
