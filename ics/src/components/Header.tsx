@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Header() {
 
   return (
-    <header className="bg-white shadow-lg border-b border-gray-200 z-50">
+    <header className="bg-white z-50">
       <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8 py-4">
         <Link href="/" className="flex items-center justify-center md:justify-start gap-3">
           {/* Logo: mobile */}
