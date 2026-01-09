@@ -68,7 +68,7 @@ export default function SubHeader() {
         <nav className="hidden md:flex space-x-8 animate-fadeIn h-full">
           {navigationData.map((item) => (
             <div key={item.label} className="group/main relative flex items-center h-full">
-              <Link href={item.href} className="text-slate-700 hover:text-blue-600 px-3 py-4 rounded-md text-sm font-mono font-bold transition-all duration-200 hover:bg-blue-50 flex items-center relative h-full">
+              <Link href={item.href} className="text-slate-700 hover:text-blue-600 px-1 py-4 rounded-md text-sm font-mono font-bold transition-all duration-200 hover:bg-blue-50 flex items-center relative h-full">
                 <svg className="w-5 h-5 mr-2 group-hover/main:fill-blue-600 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   {getIconPath(item.label)}
                 </svg>
