@@ -54,8 +54,8 @@ export default function SubHeader() {
                         The 'absolute right-0 w-screen max-w-7xl' tactic constrains it to the header's width but lets it fill that space.
                     */}
                   <div className="flex flex-row p-8 gap-8 justify-end">
-                    {/* Using grid to organize sections */}
-                    <div className="grid grid-cols-4 gap-32 w-full">
+                    {/* Using grid to organize sections, or flex for single section */}
+                    <div className={item.sections?.length === 1 ? "flex justify-end" : "grid grid-cols-4 gap-32"}>
                       {item.sections.map((section, idx) => (
                         <div key={idx} className="flex flex-col">
                           {section.title && (
@@ -80,6 +80,8 @@ export default function SubHeader() {
                         </div>
                       ))}
                     </div>
+                    {/* Vertical line aligned with content */}
+                    <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
                   </div>
                 </div>
               )}
@@ -120,8 +122,12 @@ export default function SubHeader() {
                     {item.sections.map((section, idx) => (
                       <div key={idx}>
                         {section.title && (
-                          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3">
+                          <h4
+                            tabIndex={0} // Make focusable for click-to-activate on mobile
+                            className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 relative w-fit group/mobile-heading cursor-pointer focus:outline-none"
+                          >
                             {section.title}
+                            <span className="absolute -bottom-1 left-3 w-[calc(100%_-_24px)] h-0.5 bg-blue-600 transform scale-x-0 group-hover/mobile-heading:scale-x-100 group-active/mobile-heading:scale-x-100 group-focus/mobile-heading:scale-x-100 transition-transform duration-300 origin-left"></span>
                           </h4>
                         )}
                         <ul className="space-y-1">
