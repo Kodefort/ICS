@@ -46,7 +46,7 @@ export default function SubHeader() {
 
               {/* Submenu */}
               {item.sections && item.sections.length > 0 && (
-                <div className="absolute top-full right-0 w-screen max-w-7xl  bg-white shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border-t border-gray-100 opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-200 transform translate-y-2 group-hover/main:translate-y-0 z-10 left-auto">
+                <div className="absolute top-full right-0 w-screen max-w-7xl  bg-slate-50 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border-t border-black opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-200 transform translate-y-2 group-hover/main:translate-y-0 z-10 left-auto">
                   {/* Centering container for submenu content if we want it aligned with max-w-7xl, 
                         currently relying on the exact positioning relative to the header container which is already max-w-7xl.
                         Since we want the menu to appear 'under' the nav but maybe span full width? 
@@ -57,19 +57,19 @@ export default function SubHeader() {
                     {/* Using grid to organize sections, or flex for single section */}
                     <div className={item.sections?.length === 1 ? "flex justify-end" : "grid grid-cols-4 gap-32"}>
                       {item.sections.map((section, idx) => (
-                        <div key={idx} className="flex flex-col">
+                        <div key={idx} className={`flex flex-col ${item.sections?.length === 1 ? "items-end" : ""}`}>
                           {section.title && (
-                            <h3 className="text-blue-900 font-bold text-xl mb-6 w-fit relative group/heading cursor-default">
+                            <h3 className="text-blue-900 font-bold text-2xl mb-8 w-fit relative group/heading cursor-default">
                               {section.title}
                               <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/heading:scale-x-100 transition-transform duration-300 origin-left"></span>
                             </h3>
                           )}
-                          <ul className="space-y-2">
+                          <ul className={`space-y-4 ${item.sections?.length === 1 ? "flex flex-col items-end" : ""}`}>
                             {section.items.map((subItem) => (
                               <li key={subItem.label}>
                                 <Link
                                   href={subItem.href}
-                                  className="text-slate-500 hover:text-blue-600 text-sm transition-colors duration-150 w-fit block text-right md:text-left relative group/link"
+                                  className={`text-slate-500 hover:text-blue-600 text-base transition-colors duration-150 w-fit block relative group/link ${item.sections?.length === 1 ? "text-right" : "text-right md:text-left"}`}
                                 >
                                   {subItem.label}
                                   <span className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -118,7 +118,7 @@ export default function SubHeader() {
 
                 {/* Mobile Submenu */}
                 {item.sections && activeMobileSubmenu === item.label && (
-                  <div className="bg-gray-50 pl-4 pr-2 py-2 space-y-4">
+                  <div className="bg-slate-50 pl-4 pr-2 py-2 space-y-4 border-t border-black">
                     {item.sections.map((section, idx) => (
                       <div key={idx}>
                         {section.title && (
