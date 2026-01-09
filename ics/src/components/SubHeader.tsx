@@ -53,23 +53,26 @@ export default function SubHeader() {
                         The user asked for "ui exactly like this", which usually implies a full-ish width mega menu.
                         The 'absolute right-0 w-screen max-w-7xl' tactic constrains it to the header's width but lets it fill that space.
                     */}
-                  <div className="flex flex-row p-8 gap-8 justify-end">
+                  <div className="flex flex-row p-8 gap-8 justify-start">
+                    {/* Vertical line aligned with content */}
+                    <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
+
                     {/* Using grid to organize sections, or flex for single section */}
-                    <div className={item.sections?.length === 1 ? "flex justify-end" : "grid grid-cols-4 gap-32"}>
+                    <div className={item.sections?.length === 1 ? "flex justify-start" : "grid grid-cols-4 gap-32"}>
                       {item.sections.map((section, idx) => (
-                        <div key={idx} className={`flex flex-col ${item.sections?.length === 1 ? "items-end" : ""}`}>
+                        <div key={idx} className="flex flex-col items-start">
                           {section.title && (
                             <h3 className="text-blue-900 font-bold text-2xl mb-8 w-fit relative group/heading cursor-default">
                               {section.title}
                               <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/heading:scale-x-100 transition-transform duration-300 origin-left"></span>
                             </h3>
                           )}
-                          <ul className={`space-y-4 ${item.sections?.length === 1 ? "flex flex-col items-end" : ""}`}>
+                          <ul className="space-y-4">
                             {section.items.map((subItem) => (
                               <li key={subItem.label}>
                                 <Link
                                   href={subItem.href}
-                                  className={`text-slate-500 hover:text-blue-600 text-base transition-colors duration-150 w-fit block relative group/link ${item.sections?.length === 1 ? "text-right" : "text-right md:text-left"}`}
+                                  className="text-slate-500 hover:text-blue-600 text-base transition-colors duration-150 w-fit block relative group/link text-left"
                                 >
                                   {subItem.label}
                                   <span className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -80,8 +83,6 @@ export default function SubHeader() {
                         </div>
                       ))}
                     </div>
-                    {/* Vertical line aligned with content */}
-                    <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
                   </div>
                 </div>
               )}
