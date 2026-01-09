@@ -18,17 +18,6 @@ export const navigationData: MenuItem[] = [
   {
     label: "Home",
     href: "/",
-    sections: [
-      {
-        items: [
-          { label: "Overview", href: "/#overview" },
-          { label: "Key Highlights", href: "/#highlights" },
-          { label: "Upcoming Batches", href: "/#batches" },
-          { label: "Success Stories", href: "/#stories" },
-          { label: "Announcements", href: "/#announcements" },
-        ],
-      },
-    ],
   },
   {
     label: "Our Community and Partners",

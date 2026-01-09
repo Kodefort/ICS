@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { Home } from 'lucide-react';
 import { navigationData } from '@/config/navigationData';
 
 export default function SubHeader() {
@@ -13,7 +14,7 @@ export default function SubHeader() {
   };
 
   return (
-    <div className="sticky top-0 bg-white shadow-sm border-b border-gray-100 z-50">
+    <div className="sticky top-0 bg-white shadow-sm border-b border-gray-100 z-50 relative">
       <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
 
         {/* Mobile menu button - below header on mobile */}
@@ -36,52 +37,62 @@ export default function SubHeader() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex justify-end space-x-1 animate-fadeIn h-full relative">
+        <nav className="hidden md:flex justify-start space-x-1 animate-fadeIn h-full">
           {navigationData.map((item) => (
             <div key={item.label} className="group/main pb-4 pt-4">
               {/* Added padding to container instead of link to bridge gap to submenu */}
-              <Link href={item.href} className="text-slate-600 hover:text-blue-900 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20">
-                {item.label}
-              </Link>
+              {item.label === "Home" ? (
+                <a
+                  href={item.href}
+                  className="group text-slate-600 hover:text-blue-900 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20"
+                  aria-label="Home"
+                >
+                  <Home className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                </a>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-slate-600 hover:text-blue-900 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20 gap-2"
+                >
+                  {item.label}
+                </Link>
+              )}
 
               {/* Submenu */}
               {item.sections && item.sections.length > 0 && (
-                <div className="absolute top-full right-0 w-screen max-w-7xl  bg-slate-50 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border-t border-black opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-200 transform translate-y-2 group-hover/main:translate-y-0 z-10 left-auto">
-                  {/* Centering container for submenu content if we want it aligned with max-w-7xl, 
-                        currently relying on the exact positioning relative to the header container which is already max-w-7xl.
-                        Since we want the menu to appear 'under' the nav but maybe span full width? 
-                        The user asked for "ui exactly like this", which usually implies a full-ish width mega menu.
-                        The 'absolute right-0 w-screen max-w-7xl' tactic constrains it to the header's width but lets it fill that space.
-                    */}
-                  <div className="flex flex-row p-8 gap-8 justify-start">
-                    {/* Vertical line aligned with content */}
-                    <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
+                <div className="absolute top-full left-0 w-full bg-slate-50 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border-t border-black opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-200 transform translate-y-2 group-hover/main:translate-y-0 z-10">
 
-                    {/* Using grid to organize sections, or flex for single section */}
-                    <div className={item.sections?.length === 1 ? "flex justify-start" : "grid grid-cols-4 gap-32"}>
-                      {item.sections.map((section, idx) => (
-                        <div key={idx} className="flex flex-col items-start">
-                          {section.title && (
-                            <h3 className="text-blue-900 font-bold text-2xl mb-8 w-fit relative group/heading cursor-default">
-                              {section.title}
-                              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/heading:scale-x-100 transition-transform duration-300 origin-left"></span>
-                            </h3>
-                          )}
-                          <ul className="space-y-4">
-                            {section.items.map((subItem) => (
-                              <li key={subItem.label}>
-                                <Link
-                                  href={subItem.href}
-                                  className="text-slate-500 hover:text-blue-600 text-base transition-colors duration-150 w-fit block relative group/link text-left"
-                                >
-                                  {subItem.label}
-                                  <span className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300 origin-left"></span>
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                  <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
+                    <div className="flex flex-row p-8 gap-8 justify-start">
+                      {/* Vertical line aligned with content */}
+                      <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
+
+                      {/* Using grid to organize sections, or flex for single section */}
+                      <div className={item.sections?.length === 1 ? "flex justify-start" : "grid grid-cols-4 gap-32"}>
+                        {item.sections.map((section, idx) => (
+                          <div key={idx} className="flex flex-col items-start">
+                            {section.title && (
+                              <h3 className="text-blue-900 font-bold text-2xl mb-8 w-fit relative group/heading cursor-default">
+                                {section.title}
+                                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/heading:scale-x-100 transition-transform duration-300 origin-left"></span>
+                              </h3>
+                            )}
+                            <ul className="space-y-4">
+                              {section.items.map((subItem) => (
+                                <li key={subItem.label}>
+                                  <Link
+                                    href={subItem.href}
+                                    className="text-slate-500 hover:text-blue-600 text-base transition-colors duration-150 w-fit block relative group/link text-left"
+                                  >
+                                    {subItem.label}
+                                    <span className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/link:scale-x-100 transition-transform duration-300 origin-left"></span>
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -125,10 +136,10 @@ export default function SubHeader() {
                         {section.title && (
                           <h4
                             tabIndex={0} // Make focusable for click-to-activate on mobile
-                            className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 relative w-fit group/mobile-heading cursor-pointer focus:outline-none"
+                            className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 relative w-fit group/mobile-heading cursor-pointer focus:outline-none"
                           >
                             {section.title}
-                            <span className="absolute -bottom-1 left-3 w-[calc(100%_-_24px)] h-0.5 bg-blue-600 transform scale-x-0 group-hover/mobile-heading:scale-x-100 group-active/mobile-heading:scale-x-100 group-focus/mobile-heading:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/mobile-heading:scale-x-100 group-active/mobile-heading:scale-x-100 group-focus/mobile-heading:scale-x-100 transition-transform duration-300 origin-left"></span>
                           </h4>
                         )}
                         <ul className="space-y-1">
