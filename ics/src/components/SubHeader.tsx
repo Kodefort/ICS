@@ -1,53 +1,124 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Home } from 'lucide-react';
+import Image from 'next/image';
+import { Home, Search, User } from 'lucide-react';
 import { navigationData } from '@/config/navigationData';
+import SearchOverlay from './SearchOverlay';
 
 export default function SubHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeMobileSubmenu, setActiveMobileSubmenu] = useState<string | null>(null);
 
   const toggleMobileSubmenu = (label: string) => {
     setActiveMobileSubmenu(activeMobileSubmenu === label ? null : label);
   };
 
+  // State to track scroll position for sticky logo
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+
+
   return (
-    <div className="sticky top-0 bg-white shadow-sm border-b border-gray-100 z-50 relative">
+    <div className={`sticky top-0 z-[999] transition-all duration-300 ${isScrolled ? 'glass' : 'bg-white/80 backdrop-blur-md border-b border-gray-100'}`}>
       <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
 
-        {/* Mobile menu button - below header on mobile */}
-        <div className="md:hidden flex justify-center py-2">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="bg-gray-200 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
-          >
-            <span className="sr-only">Open main menu</span>
-            {isOpen ? (
-              <svg className="block h-6 w-6 transition-transform duration-200 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="block h-6 w-6 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
+        {/* Mobile Header: Logo Left, Menu Button Right */}
+        <div className="md:hidden flex justify-between items-center py-2 px-4">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo_code.jpg"
+              alt="ICS Logo"
+              width={40}
+              height={40}
+              className="h-10 w-auto"
+            />
+            <span className="font-sans font-bold text-[#0B2C5D] text-lg">ICS</span>
+          </Link>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="p-2 text-slate-600 hover:text-blue-900 transition-colors"
+              aria-label="Search"
+            >
+              <Search className="w-6 h-6" />
+            </button>
+
+            <Link
+              href="/student"
+              className="p-2 text-slate-600 hover:text-blue-900 transition-colors"
+              aria-label="Student Portal"
+            >
+              <User className="w-6 h-6" />
+            </Link>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="bg-gray-200 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isOpen ? (
+                <svg className="block h-6 w-6 transition-transform duration-200 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="block h-6 w-6 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex justify-start space-x-1 animate-fadeIn h-full">
+        <nav className="hidden md:flex justify-start space-x-1 animate-fadeIn h-full items-center">
+
+          {/* Logo on Scroll */}
+          <Link
+            href="/"
+            className={`
+              flex items-center gap-2 mr-4 transition-all duration-300 ease-in-out overflow-hidden
+              ${isScrolled ? 'w-auto opacity-100 pr-4' : 'w-0 opacity-0 pr-0'}
+            `}
+          >
+            <Image
+              src="/logo_code.jpg"
+              alt="ICS Logo"
+              width={32}
+              height={32}
+              className="h-8 w-auto rounded-full"
+            />
+            <span className="font-sans font-bold text-[#0B2C5D] text-lg whitespace-nowrap">ICS</span>
+          </Link>
+
+
+
           {navigationData.map((item) => (
             <div key={item.label} className="group/main pb-4 pt-4">
               {/* Added padding to container instead of link to bridge gap to submenu */}
               {item.label === "Home" ? (
                 <a
                   href={item.href}
-                  className="group text-slate-600 hover:text-blue-900 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20"
+                  className="group p-2 rounded-full text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 flex items-center justify-center relative z-20"
                   aria-label="Home"
                 >
-                  <Home className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  <Home className="w-7 h-7 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
                 </a>
               ) : (
                 <Link
@@ -99,72 +170,97 @@ export default function SubHeader() {
               )}
             </div>
           ))}
+
+          <div className="ml-auto"></div> {/* Spacer to keep nav logical structure if needed, or just let nav close */}
         </nav>
+
+        {/* Independent Desktop Utility Icons - Absolutely positioned to guarantee clickability */}
+        <div className="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 items-center space-x-4 z-[1000] pointer-events-auto">
+          <button
+            onClick={() => setIsSearchOpen(true)}
+            className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
+            aria-label="Search"
+          >
+            <Search className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
+          </button>
+          <Link
+            href="/student"
+            className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
+            aria-label="Student Portal"
+          >
+            <User className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
+          </Link>
+        </div>
+
       </div>
 
+      <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
       {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden animate-slideDown max-h-[80vh] overflow-y-auto bg-white border-t border-gray-100">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navigationData.map((item) => (
-              <div key={item.label} className="block">
-                <div className="flex items-center justify-between text-slate-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors" onClick={() => item.sections ? toggleMobileSubmenu(item.label) : null}>
-                  <Link href={item.href} className="flex-grow">
-                    {item.label}
-                  </Link>
-                  {item.sections && (
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleMobileSubmenu(item.label);
-                      }}
-                      className="p-1 focus:outline-none text-slate-400"
-                    >
-                      <svg className={`w-4 h-4 transition-transform duration-200 ${activeMobileSubmenu === item.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
+      {
+        isOpen && (
+          <div className="md:hidden animate-slideDown max-h-[80vh] overflow-y-auto bg-white border-t border-gray-100">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navigationData.map((item) => (
+                <div key={item.label} className="block">
+                  <div className="flex items-center justify-between text-slate-700 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium transition-colors" onClick={() => item.sections ? toggleMobileSubmenu(item.label) : null}>
+                    <Link href={item.href} className="flex-grow">
+                      {item.label}
+                    </Link>
+                    {item.sections && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleMobileSubmenu(item.label);
+                        }}
+                        className="p-1 focus:outline-none text-slate-400"
+                      >
+                        <svg className={`w-4 h-4 transition-transform duration-200 ${activeMobileSubmenu === item.label ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Mobile Submenu */}
+                  {item.sections && activeMobileSubmenu === item.label && (
+                    <div className="bg-slate-50 pl-4 pr-2 py-2 space-y-4 border-t border-black">
+                      {item.sections.map((section, idx) => (
+                        <div key={idx}>
+                          {section.title && (
+                            <h4
+                              tabIndex={0} // Make focusable for click-to-activate on mobile
+                              className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 relative w-fit group/mobile-heading cursor-pointer focus:outline-none"
+                            >
+                              {section.title}
+                              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/mobile-heading:scale-x-100 group-active/mobile-heading:scale-x-100 group-focus/mobile-heading:scale-x-100 transition-transform duration-300 origin-left"></span>
+                            </h4>
+                          )}
+                          <ul className="space-y-1">
+                            {section.items.map((subItem) => (
+                              <li key={subItem.label}>
+                                <Link
+                                  key={subItem.label}
+                                  href={subItem.href}
+                                  className="block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 transition-colors"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {subItem.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
-
-                {/* Mobile Submenu */}
-                {item.sections && activeMobileSubmenu === item.label && (
-                  <div className="bg-slate-50 pl-4 pr-2 py-2 space-y-4 border-t border-black">
-                    {item.sections.map((section, idx) => (
-                      <div key={idx}>
-                        {section.title && (
-                          <h4
-                            tabIndex={0} // Make focusable for click-to-activate on mobile
-                            className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 relative w-fit group/mobile-heading cursor-pointer focus:outline-none"
-                          >
-                            {section.title}
-                            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover/mobile-heading:scale-x-100 group-active/mobile-heading:scale-x-100 group-focus/mobile-heading:scale-x-100 transition-transform duration-300 origin-left"></span>
-                          </h4>
-                        )}
-                        <ul className="space-y-1">
-                          {section.items.map((subItem) => (
-                            <li key={subItem.label}>
-                              <Link
-                                key={subItem.label}
-                                href={subItem.href}
-                                className="block px-3 py-2 text-sm text-slate-600 hover:text-blue-600 transition-colors"
-                                onClick={() => setIsOpen(false)}
-                              >
-                                {subItem.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }

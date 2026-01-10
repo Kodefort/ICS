@@ -1,4 +1,5 @@
 import HeroSlideshow from "../components/HeroSlideshow";
+import { Globe, Smartphone, BarChart, Brain, Shield, Cloud, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       <section className="py-8 sm:py-12 md:py-16 lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-mono text-[#0B2C5D] mb-3 sm:mb-4 px-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#0B2C5D] mb-4 sm:mb-6 px-4 tracking-tight">
               Welcome to Infinite Code School
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
@@ -20,7 +21,7 @@ export default function Home() {
 
           {/* Feature Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-10 md:mt-12">
-            
+
             {/* Card 1 */}
             <div className="group bg-gradient-to-br from-blue-50 to-indigo-100 p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-100">
               <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -74,7 +75,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-mono">
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-sans">
                 5000+
               </div>
               <div className="text-xs sm:text-sm md:text-base text-blue-100">
@@ -82,7 +83,7 @@ export default function Home() {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-mono">
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-sans">
                 95%
               </div>
               <div className="text-xs sm:text-sm md:text-base text-blue-100">
@@ -90,7 +91,7 @@ export default function Home() {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-mono">
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-sans">
                 50+
               </div>
               <div className="text-xs sm:text-sm md:text-base text-blue-100">
@@ -98,7 +99,7 @@ export default function Home() {
               </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-mono">
+              <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2 font-sans">
                 100+
               </div>
               <div className="text-xs sm:text-sm md:text-base text-blue-100">
@@ -113,7 +114,7 @@ export default function Home() {
       <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-mono text-[#0B2C5D] mb-3 sm:mb-4 px-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-sans text-[#0B2C5D] mb-3 sm:mb-4 px-4">
               Our Programs
             </h2>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
@@ -123,31 +124,37 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {[
-              { title: 'Web Development', icon: '🌐', color: 'from-blue-500 to-cyan-500' },
-              { title: 'Mobile App Development', icon: '📱', color: 'from-purple-500 to-pink-500' },
-              { title: 'Data Science', icon: '📊', color: 'from-green-500 to-teal-500' },
-              { title: 'AI & Machine Learning', icon: '🤖', color: 'from-orange-500 to-red-500' },
-              { title: 'Cybersecurity', icon: '🔒', color: 'from-indigo-500 to-purple-500' },
-              { title: 'Cloud Computing', icon: '☁️', color: 'from-cyan-500 to-blue-500' }
-            ].map((program, index) => (
-              <div
-                key={index}
-                className="group bg-white p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 cursor-pointer"
-              >
-                <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {program.icon}
+              { title: 'Web Development', icon: Globe, color: 'from-blue-500 to-cyan-500' },
+              { title: 'Mobile App Development', icon: Smartphone, color: 'from-purple-500 to-pink-500' },
+              { title: 'Data Science', icon: BarChart, color: 'from-green-500 to-teal-500' },
+              { title: 'AI & Machine Learning', icon: Brain, color: 'from-orange-500 to-red-500' },
+              { title: 'Cybersecurity', icon: Shield, color: 'from-indigo-500 to-purple-500' },
+              { title: 'Cloud Computing', icon: Cloud, color: 'from-cyan-500 to-blue-500' }
+            ].map((program, index) => {
+              const Icon = program.icon;
+              return (
+                <div
+                  key={index}
+                  className="group glass p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-blue-50/50 cursor-pointer relative overflow-hidden"
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${program.color} opacity-10 rounded-bl-full -mr-10 -mt-10 transition-transform duration-500 group-hover:scale-150`}></div>
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 mb-4 sm:mb-6 rounded-2xl bg-gradient-to-br ${program.color} p-0.5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+                      <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-gray-800" />
+                    </div>
+                  </div>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#0B2C5D] mb-2 font-sans">
+                    {program.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-4 sm:mb-6 leading-relaxed">
+                    Master the skills needed for a successful career in {program.title.toLowerCase()}.
+                  </p>
+                  <div className={`inline-flex items-center gap-2 text-[#0B2C5D] text-sm font-bold group-hover:gap-3 transition-all`}>
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
-                <h3 className="text-base sm:text-lg md:text-xl font-bold font-mono text-[#0B2C5D] mb-2">
-                  {program.title}
-                </h3>
-                <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-3 sm:mb-4">
-                  Master the skills needed for a successful career in {program.title.toLowerCase()}.
-                </p>
-                <div className={`inline-block bg-gradient-to-r ${program.color} text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold group-hover:shadow-lg transition-all duration-300`}>
-                  Learn More →
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
@@ -155,17 +162,17 @@ export default function Home() {
       {/* Call to Action */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-r from-[#0B2C5D] via-[#1a4380] to-[#2B7CFF]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-mono text-white mb-4 sm:mb-5 md:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-sans text-white mb-4 sm:mb-5 md:mb-6">
             Ready to Start Your Journey?
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-blue-100 mb-6 sm:mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
             Join thousands of students who have transformed their careers with us. Your future in tech starts here.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center px-4">
-            <button className="bg-white text-[#0B2C5D] px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl font-bold font-mono text-sm sm:text-base md:text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl">
+            <button className="bg-white text-[#0B2C5D] px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl font-bold font-sans text-sm sm:text-base md:text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-xl hover:shadow-2xl">
               Enroll Now
             </button>
-            <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl font-bold font-mono text-sm sm:text-base md:text-lg hover:bg-white/10 transition-all duration-300 hover:scale-105 shadow-xl">
+            <button className="bg-transparent border-2 border-white text-white px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 rounded-lg sm:rounded-xl font-bold font-sans text-sm sm:text-base md:text-lg hover:bg-white/10 transition-all duration-300 hover:scale-105 shadow-xl">
               View Programs
             </button>
           </div>

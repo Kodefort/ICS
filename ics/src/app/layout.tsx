@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import { Urbanist } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import IntroLoader from "./IntroLoader";
 import SubHeader from "@/components/SubHeader";
+import MessengerWidget from "@/components/MessengerWidget";
+import EmergencyWidget from "@/components/EmergencyWidget";
 
-const urbanist = Urbanist({
-  variable: "--font-urbanist",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -27,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${urbanist.variable} antialiased`}
+        className={`${outfit.variable} antialiased`}
       >
         <IntroLoader />
         <Header />
@@ -35,6 +37,8 @@ export default function RootLayout({
         <main className="min-h-screen">
           {children}
         </main>
+        <MessengerWidget />
+        <EmergencyWidget />
         <Footer />
       </body>
     </html>
