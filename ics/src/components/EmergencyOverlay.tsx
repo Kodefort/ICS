@@ -52,10 +52,10 @@ const EmergencyOverlay: React.FC<EmergencyOverlayProps> = ({ isOpen, onClose }) 
                 </div>
             </div>
 
-            {/* Red Close Button */}
+            {/* Close Button */}
             <button
                 onClick={onClose}
-                className={`fixed z-[2002] bottom-24 right-6 md:bottom-6 md:left-6 bg-red-500 hover:bg-red-600 text-white rounded-full p-4 shadow-xl transition-all duration-500 transform hover:scale-110
+                className={`fixed z-[2002] bottom-24 right-6 md:bottom-10 md:left-10 md:right-auto bg-red-600 hover:bg-red-700 text-white rounded-full p-4 shadow-xl transition-all duration-500 transform hover:scale-110 active:scale-95
             ${isOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-0 pointer-events-none'}
         `}
                 aria-label="Close Announcement"
