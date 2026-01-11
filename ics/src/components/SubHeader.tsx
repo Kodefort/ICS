@@ -39,7 +39,7 @@ export default function SubHeader() {
       <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
 
         {/* Mobile Header: Logo Left, Menu Button Right */}
-        <div className="md:hidden flex justify-between items-center py-2 px-4">
+        <div className="lg:hidden flex justify-between items-center py-2 px-4">
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/logo_code.jpg"
@@ -87,7 +87,7 @@ export default function SubHeader() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex justify-start space-x-1 animate-fadeIn h-full items-center">
+        <nav className="hidden lg:flex justify-start space-x-1 animate-fadeIn h-full items-center">
 
           {/* Logo on Scroll */}
           <Link
@@ -171,26 +171,25 @@ export default function SubHeader() {
             </div>
           ))}
 
-          <div className="ml-auto"></div> {/* Spacer to keep nav logical structure if needed, or just let nav close */}
-        </nav>
 
-        {/* Independent Desktop Utility Icons - Absolutely positioned to guarantee clickability */}
-        <div className="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 items-center space-x-4 z-[1000] pointer-events-auto">
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
-            aria-label="Search"
-          >
-            <Search className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
-          </button>
-          <Link
-            href="/student"
-            className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
-            aria-label="Student Portal"
-          >
-            <User className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
-          </Link>
-        </div>
+          {/* Independent Desktop Utility Icons - Integrated into Nav to prevent overlap */}
+          <div className="ml-auto flex items-center space-x-4">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
+              aria-label="Search"
+            >
+              <Search className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
+            </button>
+            <Link
+              href="/student"
+              className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
+              aria-label="Student Portal"
+            >
+              <User className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
+            </Link>
+          </div>
+        </nav>
 
       </div>
 
@@ -199,7 +198,7 @@ export default function SubHeader() {
       {/* Mobile Navigation */}
       {
         isOpen && (
-          <div className="md:hidden animate-slideDown max-h-[80vh] overflow-y-auto bg-white border-t border-gray-100">
+          <div className="lg:hidden animate-slideDown max-h-[80vh] overflow-y-auto bg-white border-t border-gray-100">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navigationData.map((item) => (
                 <div key={item.label} className="block">
