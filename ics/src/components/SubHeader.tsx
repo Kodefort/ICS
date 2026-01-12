@@ -36,7 +36,7 @@ export default function SubHeader() {
 
   return (
     <div className={`sticky top-0 z-[999] transition-all duration-300 ${isScrolled ? 'glass' : 'bg-white backdrop-blur-md border-b border-gray-100'}`}>
-      <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-13 lg:pr-8">
+      <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-18 lg:pr-8">
 
         {/* Mobile Header: Logo Left, Menu Button Right */}
         <div className="lg:hidden flex justify-between items-center py-2 px-4">
@@ -89,7 +89,7 @@ export default function SubHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex justify-start space-x-1 animate-fadeIn h-full items-center">
 
-          {/* Logo on Scroll */}
+          {/* Logo on Scroll
           <Link
             href="/"
             className={`
@@ -105,14 +105,14 @@ export default function SubHeader() {
               className="h-8 w-auto rounded-full"
             />
             <span className="font-sans font-bold text-[#0B2C5D] text-lg whitespace-nowrap">ICS</span>
-          </Link>
+          </Link> */}
 
 
 
           {navigationData.map((item) => (
             <div key={item.label} className="group/main pb-4 pt-4">
               {/* Added padding to container instead of link to bridge gap to submenu */}
-              {item.label === "Home" ? (
+              {/* {item.label === "Home" ? (
                 <a
                   href={item.href}
                   className="group p-2 rounded-full text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 flex items-center justify-center relative z-20"
@@ -127,7 +127,47 @@ export default function SubHeader() {
                 >
                   {item.label}
                 </Link>
+              )} */}
+
+              {item.label === "Home" ? (
+                isScrolled ? (
+                  /* 🔹 LOGO shown ON SCROLL */
+                  <Link
+                    href="/"
+                    aria-label="Home"
+                    className="inline-flex items-center gap-1.5 px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
+                  >
+                    <Image
+                      src="/logo_code.jpg"
+                      alt="ICS Logo"
+                      width={20}
+                      height={20}
+                      className="h-9 w-9 rounded-full"
+                    />
+                    {/* <span className="font-bold text-sm text-[#0B2C5D] leading-none">
+        ICS
+      </span> */}
+                  </Link>
+                ) : (
+                  /* 🔹 HOME BUTTON shown INITIALLY */
+                  <Link
+                    href="/"
+                    aria-label="Home"
+                    className="inline-flex items-center justify-center px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
+                  >
+                    <Home className="w-5 h-5 text-slate-600" />
+                  </Link>
+                )
+              ) : (
+                /* 🔹 Other nav items unchanged */
+                <Link
+                  href={item.href}
+                  className="text-slate-600 hover:text-blue-900 px-1.5 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                >
+                  {item.label}
+                </Link>
               )}
+
 
               {/* Submenu */}
               {item.sections && item.sections.length > 0 && (
