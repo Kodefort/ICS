@@ -219,14 +219,14 @@ export default function SubHeader() {
               className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
               aria-label="Search"
             >
-              <Search className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
+              <Search className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" />
             </button>
             <Link
               href="/student"
               className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
               aria-label="Student Portal"
             >
-              <User className="w-6 h-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
+              <User className="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
             </Link>
           </div>
         </nav>
