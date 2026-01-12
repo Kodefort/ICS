@@ -74,13 +74,10 @@ export const navigationData: MenuItem[] = [
       {
         title: "Colleges",
         items: [
-          { label: "ICS Abu Dhabi (Bani Yas)", href: "/academics/colleges#abu-dhabi" },
-          { label: "ICS Al Ain", href: "/academics/colleges#al-ain" },
-          { label: "ICS Al Dhafra", href: "/academics/colleges#al-dhafra" },
-          { label: "ICS Dubai", href: "/academics/colleges#dubai" },
-          { label: "ICS Fujairah", href: "/academics/colleges#fujairah" },
-          { label: "ICS Ras Al Khaimah", href: "/academics/colleges#ras-al-khaimah" },
-          { label: "ICS Sharjah", href: "/academics/colleges#sharjah" },
+          { label: "ICS Campus 1", href: "/academics/colleges#abu-dhabi" },
+          { label: "ICS Campus 2", href: "/academics/colleges#al-ain" },
+          { label: "ICS Campus 3", href: "/academics/colleges#al-dhafra" },
+          { label: "ICS  Campus 4", href: "/academics/colleges#dubai" },
         ],
       },
       {

@@ -35,8 +35,8 @@ export default function SubHeader() {
 
 
   return (
-    <div className={`sticky top-0 z-[999] transition-all duration-300 ${isScrolled ? 'glass' : 'bg-white/80 backdrop-blur-md border-b border-gray-100'}`}>
-      <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
+    <div className={`sticky top-0 z-[999] transition-all duration-300 ${isScrolled ? 'glass' : 'bg-white backdrop-blur-md border-b border-gray-100'}`}>
+      <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-13 lg:pr-8">
 
         {/* Mobile Header: Logo Left, Menu Button Right */}
         <div className="lg:hidden flex justify-between items-center py-2 px-4">
@@ -123,7 +123,7 @@ export default function SubHeader() {
               ) : (
                 <Link
                   href={item.href}
-                  className="text-slate-600 hover:text-blue-900 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20 gap-2"
+                  className="text-slate-600 hover:text-blue-900 px-1.5 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20 gap-2"
                 >
                   {item.label}
                 </Link>

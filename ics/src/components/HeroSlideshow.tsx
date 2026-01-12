@@ -69,7 +69,7 @@ export default function HeroSlideshow() {
 
   return (
     <section className="w-full bg-white py-4 sm:py-6 md:py-8 lg:py-12">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 max-w-7xl mx-auto">
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-0 xl:px-16 max-w-7xl mx-auto">
         
         {/* Slideshow Container */}
         <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl">
