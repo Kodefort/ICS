@@ -13,8 +13,8 @@ export default function Header() {
           <Image
             src="/logo_code.jpg"
             alt="ICS Logo"
-            width={60}
-            height={60}
+            width={80}
+            height={80}
             className="
                         h-14 md:h-16 
                         w-auto 

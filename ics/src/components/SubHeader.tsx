@@ -21,7 +21,7 @@ export default function SubHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -35,7 +35,7 @@ export default function SubHeader() {
 
 
   return (
-    <div className={`sticky top-0 z-[999] transition-all duration-300 ${isScrolled ? 'glass' : 'bg-white backdrop-blur-md border-b border-gray-100'}`}>
+    <div className={`sticky top-0 z-[999] py-1.5 transition-all duration-300 ${isScrolled ? 'bg-white backdrop-blur-md border-b border-gray-100' : 'bg-white backdrop-blur-md border-b border-gray-100'}`}>
       <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-18 lg:pr-8">
 
         {/* Mobile Header: Logo Left, Menu Button Right */}
@@ -89,66 +89,30 @@ export default function SubHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex justify-start space-x-1 animate-fadeIn h-full items-center">
 
-          {/* Logo on Scroll
-          <Link
-            href="/"
-            className={`
-              flex items-center gap-2 mr-4 transition-all duration-300 ease-in-out overflow-hidden
-              ${isScrolled ? 'w-auto opacity-100 pr-4' : 'w-0 opacity-0 pr-0'}
-            `}
-          >
-            <Image
-              src="/logo_code.jpg"
-              alt="ICS Logo"
-              width={32}
-              height={32}
-              className="h-8 w-auto rounded-full"
-            />
-            <span className="font-sans font-bold text-[#0B2C5D] text-lg whitespace-nowrap">ICS</span>
-          </Link> */}
-
-
-
           {navigationData.map((item) => (
-            <div key={item.label} className="group/main pb-4 pt-4">
-              {/* Added padding to container instead of link to bridge gap to submenu */}
-              {/* {item.label === "Home" ? (
-                <a
-                  href={item.href}
-                  className="group p-2 rounded-full text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 flex items-center justify-center relative z-20"
-                  aria-label="Home"
-                >
-                  <Home className="w-7 h-7 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="text-slate-600 hover:text-blue-900 px-1.5 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center relative z-20 gap-2"
-                >
-                  {item.label}
-                </Link>
-              )} */}
+            <div key={item.label} className="group/main py-1">
 
               {item.label === "Home" ? (
-                isScrolled ? (
-                  /* 🔹 LOGO shown ON SCROLL */
-                  <Link
-                    href="/"
-                    aria-label="Home"
-                    className="inline-flex items-center gap-1.5 px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
-                  >
-                    <Image
-                      src="/logo_code.jpg"
-                      alt="ICS Logo"
-                      width={20}
-                      height={20}
-                      className="h-9 w-9 rounded-full"
-                    />
-                    {/* <span className="font-bold text-sm text-[#0B2C5D] leading-none">
-        ICS
-      </span> */}
-                  </Link>
-                ) : (
+      //           isScrolled ? (
+      //             /* 🔹 LOGO shown ON SCROLL */
+      //             <Link
+      //               href="/"
+      //               aria-label="Home"
+      //               className="inline-flex items-center gap-1.5 px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
+      //             >
+      //               <Image
+      //                 src="/logo_code.jpg"
+      //                 alt="ICS Logo"
+      //                 width={20}
+      //                 height={20}
+      //                 className="h-9 w-9 rounded-full"
+      //               />
+      //               {/* <span className="font-bold text-sm text-[#0B2C5D] leading-none">
+      //   ICS
+      // </span> */}
+      //             </Link>
+      //           ) 
+                // : (
                   /* 🔹 HOME BUTTON shown INITIALLY */
                   <Link
                     href="/"
@@ -158,11 +122,11 @@ export default function SubHeader() {
                     <Home className="w-5 h-5 text-slate-600" />
                   </Link>
                 )
-              ) : (
+             : (
                 /* 🔹 Other nav items unchanged */
                 <Link
                   href={item.href}
-                  className="text-slate-600 hover:text-blue-900 px-1.5 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                  className="text-slate-600 text-sm  hover:text-blue-900 px-1.5 py-0 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
                 >
                   {item.label}
                 </Link>
@@ -174,7 +138,7 @@ export default function SubHeader() {
                 <div className="absolute top-full left-0 w-full bg-slate-50 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border-t border-black opacity-0 invisible group-hover/main:opacity-100 group-hover/main:visible transition-all duration-200 transform translate-y-2 group-hover/main:translate-y-0 z-10">
 
                   <div className="max-w-7xl mx-auto pl-8 pr-4 sm:pl-12 sm:pr-6 lg:pl-16 lg:pr-8">
-                    <div className="flex flex-row p-8 gap-8 justify-start">
+                    <div className="flex flex-row p-2 gap-3 justify-start">
                       {/* Vertical line aligned with content */}
                       <div className="w-1 bg-blue-600 rounded-full opacity-80 shrink-0 self-stretch my-1"></div>
 

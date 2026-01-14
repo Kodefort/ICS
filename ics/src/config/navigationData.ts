@@ -72,7 +72,7 @@ export const navigationData: MenuItem[] = [
     href: "/academics",
     sections: [
       {
-        title: "Colleges",
+        title: "Schools ",
         items: [
           { label: "ICS Campus 1", href: "/academics/colleges#abu-dhabi" },
           { label: "ICS Campus 2", href: "/academics/colleges#al-ain" },

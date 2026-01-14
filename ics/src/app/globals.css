@@ -32,6 +32,7 @@ body {
   .glass {
     @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
   }
+  
   .glass-dark {
     @apply bg-black/70 backdrop-blur-lg border border-white/10 shadow-xl;
   }
