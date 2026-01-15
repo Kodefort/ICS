@@ -1,3 +1,4 @@
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +6,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,53 +23,56 @@
 }
 
 body {
-  color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
+  font-family: var(--font-sans);
 }
 
 @layer utilities {
   .glass {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
   }
-
+  
   .glass-dark {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    @apply bg-black/70 backdrop-blur-lg border border-white/10 shadow-xl;
   }
 }
 
-/* Flame Glow Animation for Logo */
-@keyframes flame-glow {
-
-  0%,
-  100% {
-    filter: drop-shadow(0 0 2px rgba(255, 165, 0, 0.6)) drop-shadow(0 0 5px rgba(255, 69, 0, 0.4));
-  }
-
-  50% {
-    filter: drop-shadow(0 0 5px rgba(255, 200, 50, 0.8)) drop-shadow(0 0 10px rgba(255, 100, 0, 0.6));
-  }
-}
-
+/* Glow that matches your logo flame (subtle, premium) */
 .logo-flame-glow {
-  animation: flame-glow 2s ease-in-out infinite alternate;
+  position: relative;
+  display: inline-block;
 }
 
-/* Rope Flow Animation */
-@keyframes ropeFlow {
-  0% {
-    stroke-dashoffset: 0;
-  }
+.logo-flame-glow::after {
+  content: "";
+  position: absolute;
+  top: -18px;              /* glow above the logo where flame is */
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translateX(-50%);
+  border-radius: 999px;
 
-  100% {
-    stroke-dashoffset: 20;
-  }
+  background: radial-gradient(
+    circle,
+    rgba(255, 220, 140, 0.95) 0%,
+    rgba(255, 165, 60, 0.75) 35%,
+    rgba(255, 95, 0, 0.45) 55%,
+    transparent 72%
+  );
+
+  filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+
+  animation: flameGlowOnce 2s ease-in-out forwards;
 }
 
-.animate-rope-flow {
-  animation: ropeFlow 2s linear infinite;
+@keyframes flameGlowOnce {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.7); }
+  20%  { opacity: 1; }
+  60%  { opacity: 1; transform: translateX(-50%) scale(1.05); }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.25); }
 }
+

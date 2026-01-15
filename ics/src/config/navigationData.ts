@@ -83,7 +83,6 @@ export const navigationData: MenuItem[] = [
       {
         title: "Acceptance",
         items: [
-          { label: "Admission", href: "/admissions/apply" },
           { label: "Admission Requirements", href: "/academics/acceptance#requirements" },
           { label: "Open Day", href: "/academics/acceptance#open-day" },
           { label: "Frequently Asked Questions", href: "/academics/acceptance#faq" },
@@ -187,6 +186,6 @@ export const navigationData: MenuItem[] = [
       }
     ],
   },
-
-
+  
+  
 ];
