@@ -93,44 +93,24 @@ export default function SubHeader() {
             <div key={item.label} className="group/main py-1">
 
               {item.label === "Home" ? (
-      //           isScrolled ? (
-      //             /* 🔹 LOGO shown ON SCROLL */
-      //             <Link
-      //               href="/"
-      //               aria-label="Home"
-      //               className="inline-flex items-center gap-1.5 px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
-      //             >
-      //               <Image
-      //                 src="/logo_code.jpg"
-      //                 alt="ICS Logo"
-      //                 width={20}
-      //                 height={20}
-      //                 className="h-9 w-9 rounded-full"
-      //               />
-      //               {/* <span className="font-bold text-sm text-[#0B2C5D] leading-none">
-      //   ICS
-      // </span> */}
-      //             </Link>
-      //           ) 
-                // : (
-                  /* 🔹 HOME BUTTON shown INITIALLY */
-                  <Link
-                    href="/"
-                    aria-label="Home"
-                    className="inline-flex items-center justify-center px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
-                  >
-                    <Home className="w-5 h-5 text-slate-600" />
-                  </Link>
-                )
-             : (
-                /* 🔹 Other nav items unchanged */
+                /* 🔹 HOME BUTTON shown INITIALLY */
                 <Link
-                  href={item.href}
-                  className="text-slate-600 text-sm  hover:text-blue-900 px-1.5 py-0 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                  href="/"
+                  aria-label="Home"
+                  className="inline-flex items-center justify-center px-1.5 py-2 rounded-md hover:bg-blue-50 transition-colors"
                 >
-                  {item.label}
+                  <Home className="w-5 h-5 text-slate-600" />
                 </Link>
-              )}
+              )
+                : (
+                  /* 🔹 Other nav items unchanged */
+                  <Link
+                    href={item.href}
+                    className="text-slate-600 text-sm  hover:text-blue-900 px-1.5 py-0 rounded-md text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                  >
+                    {item.label}
+                  </Link>
+                )}
 
 
               {/* Submenu */}
