@@ -15,13 +15,7 @@ export default function Header() {
             alt="ICS Logo"
             width={80}
             height={80}
-            className="
-                        h-14 md:h-16 
-                        w-auto 
-                        hover:scale-105 
-                        transition-transform 
-                        duration-200
-                      "
+            className="h-14 md:h-16 w-auto hover:scale-105 transition-transform duration-200"
           />
 
           {/* Text */}
