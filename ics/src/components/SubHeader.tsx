@@ -158,6 +158,13 @@ export default function SubHeader() {
 
           {/* Independent Desktop Utility Icons - Integrated into Nav to prevent overlap */}
           <div className="ml-auto flex items-center space-x-4">
+            <Link
+              href="/admissions/apply"
+              target="_blank"
+              className="hidden md:inline-flex items-center justify-center px-5 py-2 border border-transparent text-sm font-bold rounded-full text-white bg-[#0B2C5D] hover:bg-[#0a2347] shadow-md transition-all duration-200 hover:scale-105"
+            >
+              Apply Now
+            </Link>
             <button
               onClick={() => setIsSearchOpen(true)}
               className="group p-3 rounded-full bg-white shadow-md text-slate-600 hover:text-blue-900 hover:bg-blue-50 transition-all duration-200 cursor-pointer border border-gray-200 relative"
@@ -240,6 +247,18 @@ export default function SubHeader() {
                   )}
                 </div>
               ))}
+
+              {/* Mobile Apply Now Button */}
+              <div className="mt-4 px-3 pb-2">
+                <Link
+                  href="/admissions/apply"
+                  target="_blank"
+                  className="block w-full text-center bg-[#0B2C5D] text-white px-5 py-3 rounded-md text-base font-bold shadow-md hover:bg-[#0a2347] transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Apply Now
+                </Link>
+              </div>
             </div>
           </div>
         )

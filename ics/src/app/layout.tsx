@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import IntroLoader from "./IntroLoader";
-import SubHeader from "@/components/SubHeader";
-import MessengerWidget from "@/components/MessengerWidget";
-import EmergencyWidget from "@/components/EmergencyWidget";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -31,15 +26,9 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} antialiased`}
       >
-        <IntroLoader />
-        <Header />
-        <SubHeader />
-        <main className="min-h-screen">
+        <LayoutWrapper>
           {children}
-        </main>
-        <MessengerWidget />
-        <EmergencyWidget />
-        <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );

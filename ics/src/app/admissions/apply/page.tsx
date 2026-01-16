@@ -1,27 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 
-const DISEASE_OPTIONS = [
-    "None",
-    "Allergies (Severe)",
-    "Asthma",
-    "ADHD",
-    "Autism Spectrum Disorder",
-    "Diabetes Type 1",
-    "Diabetes Type 2",
-    "Epilepsy / Seizures",
-    "Heart Condition",
-    "Hemophilia",
-    "Migraines (Chronic)",
-    "Physical Disability",
-    "Thalassemia",
-    "Vision Impairment",
-    "Hearing Impairment",
-    "Other (Please Specify)"
-];
+
 
 const HOBBY_OPTIONS = [
     "Reading",
@@ -52,6 +36,8 @@ const HOBBY_OPTIONS = [
 
 export default function AdmissionApplyPage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
     const [formData, setFormData] = useState({
         // Student Info
         studentName: "",
@@ -68,7 +54,8 @@ export default function AdmissionApplyPage() {
         aadhaarNumber: "",
         nationality: "",
         bloodGroup: "",
-        diseaseInfo: "",
+        studentPhoto: null as File | null,
+        signature: null as File | null,
         previousSchool: "",
         achievements: "",
         religion: "",
@@ -84,8 +71,20 @@ export default function AdmissionApplyPage() {
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value, type } = e.target;
+
+        if (type === 'file') {
+            const fileInput = e.target as HTMLInputElement;
+            const file = fileInput.files ? fileInput.files[0] : null;
+            setFormData(prev => ({ ...prev, [name]: file }));
+
+            if (name === "studentPhoto" && file) {
+                const url = URL.createObjectURL(file);
+                setPreviewUrl(url);
+            }
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -152,7 +151,26 @@ export default function AdmissionApplyPage() {
                 </svg>
             </div>
 
-            <div className="max-w-7xl mx-auto relative z-10 pt-[200px] sm:pt-[280px] lg:pt-[350px] pb-20 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto relative z-10 pt-[120px] sm:pt-[150px] lg:pt-[180px] pb-20 px-4 sm:px-6 lg:px-8">
+
+                {/* Photo Preview Frame */}
+                {previewUrl && (
+                    <div className="absolute top-[160px] right-4 sm:right-8 md:right-0 w-32 h-40 bg-white border-4 border-gray-800 shadow-xl transform rotate-3 z-20 hidden sm:block">
+                        <div className="w-full h-full relative overflow-hidden">
+                            <Image
+                                src={previewUrl}
+                                alt="Student Preview"
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-full text-center">
+                            <span className="text-xs font-bold font-mono bg-yellow-200 px-2 py-1 transform -rotate-3 inline-block shadow-sm border border-black">
+                                STUDENT
+                            </span>
+                        </div>
+                    </div>
+                )}
 
                 {/* Header Section */}
                 <motion.div
@@ -161,6 +179,15 @@ export default function AdmissionApplyPage() {
                     variants={fadeInUp}
                     className="text-center space-y-4 mb-16"
                 >
+                    <div className="flex justify-center mb-6">
+                        <Image
+                            src="/logo_code.jpg"
+                            alt="ICS Logo"
+                            width={120}
+                            height={120}
+                            className="h-24 w-auto rounded-full shadow-lg"
+                        />
+                    </div>
                     <div className="inline-block relative">
                         <h1 className="text-5xl md:text-6xl font-extrabold uppercase tracking-wide text-black relative z-10 transition-all duration-300 hover:tracking-[0.1em]">
                             Admission Form
@@ -307,7 +334,9 @@ export default function AdmissionApplyPage() {
                             <SketchyInput label="Religion" name="religion" value={formData.religion} onChange={handleChange} />
                             <SketchyInput label="Caste" name="caste" value={formData.caste} onChange={handleChange} />
 
-                            <SketchySelect label="Disease Info (e.g. ADHD)" name="diseaseInfo" options={DISEASE_OPTIONS} fullWidth className="lg:col-span-3" value={formData.diseaseInfo} onChange={handleChange} />
+                            <SketchyFileInput label="Student Photo" name="studentPhoto" required onChange={handleChange} accept="image/*" />
+                            <SketchyFileInput label="Signature" name="signature" onChange={handleChange} accept="image/*" />
+
                             <SketchyInput label="Previous School & Address" name="previousSchool" fullWidth className="lg:col-span-3" value={formData.previousSchool} onChange={handleChange} />
                             <SketchyInput label="Achievements" name="achievements" fullWidth className="lg:col-span-3" value={formData.achievements} onChange={handleChange} />
                         </div>
@@ -490,6 +519,44 @@ const SketchySelect = ({
                     </svg>
                 </div>
             </div>
+        </div>
+    );
+};
+
+// Custom "Sketchy" File Input Component
+const SketchyFileInput = ({
+    label,
+    name,
+    onChange,
+    required = false,
+    className = "",
+    accept = ""
+}: {
+    label: string,
+    name: string,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    required?: boolean,
+    className?: string,
+    accept?: string
+}) => {
+    const borderRadius = "255px 15px 225px 15px / 15px 225px 15px 255px";
+
+    return (
+        <div className={`space-y-2 ${className}`}>
+            <label className="block text-xs font-bold uppercase tracking-wider text-[#1e3a8a] pl-2">
+                {label} {required && "*"}
+            </label>
+            <input
+                type="file"
+                name={name}
+                onChange={onChange}
+                required={required}
+                accept={accept}
+                className="w-full bg-transparent border-2 border-black text-black px-6 py-3 focus:outline-none focus:border-[#1e3a8a] transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a8a] file:text-white hover:file:bg-blue-900 cursor-pointer"
+                style={{
+                    borderRadius: borderRadius,
+                }}
+            />
         </div>
     );
 };
