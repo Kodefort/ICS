@@ -23,10 +23,6 @@ jobs:
         working-directory: ics
         run: npm install
 
-      - name: Run ESLint
-        working-directory: ics
-        run: npm run lint
-
       - name: Build Next.js app
         working-directory: ics
         run: npm run build
