@@ -45,18 +45,17 @@ export async function handleSignUp(formData: FormData) {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     try {
-        await prisma.user.create({
+        const newUser = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
                 name,
             }
         })
-        // Automatically sign in after sign up? 
-        // Or return success and let user sign in. Let's redirect or sign in.
-        // Usually safer to just return success and ask to login.
+        console.log(`[Auth] User created successfully: ${email}`);
         return { success: "Account created! Please sign in." }
     } catch (error) {
+        console.error(`[Auth] Failed to create account for ${email}:`, error);
         return { error: "Failed to create account." }
     }
 }
