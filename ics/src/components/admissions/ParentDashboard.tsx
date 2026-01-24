@@ -18,6 +18,7 @@ interface ParentDashboardProps {
     applications: Application[];
     onNewApplication: () => void;
     onContinueApplication: (id: string) => void;
+    onViewApplication: (id: string) => void;
 }
 
 const statusColors = {
@@ -36,7 +37,7 @@ const statusIcons = {
     'REJECTED': AlertCircle,
 };
 
-export default function ParentDashboard({ parentMobile, applications, onNewApplication, onContinueApplication }: ParentDashboardProps) {
+export default function ParentDashboard({ parentMobile, applications, onNewApplication, onContinueApplication, onViewApplication }: ParentDashboardProps) {
 
     return (
         <div className="min-h-screen bg-gray-50/50 p-6 md:p-12 font-sans">
@@ -111,7 +112,10 @@ export default function ParentDashboard({ parentMobile, applications, onNewAppli
                                                         Continue <ArrowRight size={16} />
                                                     </button>
                                                 ) : (
-                                                    <button className="px-5 py-2.5 bg-gray-50 text-gray-600 font-bold rounded-xl hover:bg-gray-100 transition-colors">
+                                                    <button
+                                                        onClick={() => onViewApplication(app.id)}
+                                                        className="px-5 py-2.5 bg-gray-50 text-gray-600 font-bold rounded-xl hover:bg-gray-100 transition-colors"
+                                                    >
                                                         View Details
                                                     </button>
                                                 )}

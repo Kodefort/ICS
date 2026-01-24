@@ -34,13 +34,16 @@ const HOBBY_OPTIONS = [
 
 interface AdmissionFormProps {
     onCancel: () => void;
-    onSuccess: () => void;
+    onSuccess?: () => void; // Keeping for backward compat if needed, but we prefer onSuccessWithData
+    onSuccessWithData?: (data: any) => void;
     onSave: (data: any) => void;
+    initialData?: any;
+    readOnly?: boolean;
 }
 
-export default function AdmissionForm({ onCancel, onSuccess, onSave }: AdmissionFormProps) {
+export default function AdmissionForm({ onCancel, onSuccess, onSuccessWithData, onSave, initialData, readOnly = false }: AdmissionFormProps) {
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(initialData?.studentPhotoUrl || null);
 
     const [formData, setFormData] = useState({
         // Student Info
@@ -72,30 +75,108 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
         // Personal Details
         hobby: "",
         dob: "",
+        ...initialData
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        if (readOnly) return;
+
         const { name, value, type } = e.target;
 
         if (type === 'file') {
             const fileInput = e.target as HTMLInputElement;
             const file = fileInput.files ? fileInput.files[0] : null;
-            setFormData(prev => ({ ...prev, [name]: file }));
+            setFormData((prev: any) => ({ ...prev, [name]: file }));
 
             if (name === "studentPhoto" && file) {
                 const url = URL.createObjectURL(file);
                 setPreviewUrl(url);
             }
         } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
+            setFormData((prev: any) => ({ ...prev, [name]: value }));
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form Submitted:", formData);
-        setIsSubmitted(true);
-        // alert("Application Submitted!");
+        if (readOnly) return;
+
+        try {
+            // Convert files to base64
+            const fileToBase64 = (file: File): Promise<string> => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result as string);
+                    reader.onerror = error => reject(error);
+                });
+            };
+
+            let photoBase64 = null;
+            let signatureBase64 = null;
+
+            if (formData.studentPhoto instanceof File) {
+                photoBase64 = await fileToBase64(formData.studentPhoto);
+            }
+            if (!photoBase64 && formData.studentPhotoUrl) {
+                photoBase64 = formData.studentPhotoUrl;
+            }
+
+            if (formData.signature instanceof File) {
+                signatureBase64 = await fileToBase64(formData.signature);
+            }
+            if (!signatureBase64 && formData.signatureUrl) {
+                signatureBase64 = formData.signatureUrl;
+            }
+
+            const payload = {
+                ...formData,
+                studentPhotoUrl: photoBase64,
+                signatureUrl: signatureBase64,
+            };
+
+            // Remove raw file objects from payload to avoid serialization issues (though standard JSON.stringify ignores them usually, explicit is better/cleaner)
+            // Actually spread copies them. JSON.stringify ignores functions/Symbol/undefined, but File objects become empty objects {}.
+            // It's fine as we send studentPhotoUrl primarily.
+
+            const response = await fetch('/api/admissions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                console.log("Form Submitted:", payload);
+                setIsSubmitted(true);
+                // We don't call onSuccess here immediately, we wait for user to click "Go to Dashboard"
+                // But we should update the parent state potentially? 
+                // Let's store payload in a ref or state if needed, but effectively we just need it when "Go to Dashboard" is clicked.
+                // Or we can just call the data callback now and let the UI show success screen?
+                // The Success Screen is internal to this component. 
+                // So we do nothing else here.
+
+                // Store payload for the final callback
+                (window as any).__lastSubmissionPayload = payload;
+            } else {
+                console.error("Submission failed");
+                alert("Submission failed. Please try again.");
+            }
+
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("An error occurred.");
+        }
+    };
+
+    const handleSuccessClick = () => {
+        const payload = (window as any).__lastSubmissionPayload || formData;
+        if (onSuccessWithData) {
+            onSuccessWithData(payload);
+        } else if (onSuccess) {
+            onSuccess();
+        }
     };
 
     const fadeInUp = {
@@ -134,7 +215,7 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
                         </p>
                         <div className="flex justify-center gap-4">
                             <button
-                                onClick={onSuccess}
+                                onClick={handleSuccessClick}
                                 className="inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white bg-[#1e3a8a] rounded-full hover:bg-blue-900 transition-colors"
                             >
                                 Go to Dashboard
@@ -323,35 +404,36 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
                     <section className="space-y-8">
                         <SectionHeader title="1. Student Information" />
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
-                            <SketchyInput label="Name" name="studentName" required value={formData.studentName} onChange={handleChange} />
-                            <SketchyInput label="Father's Name" name="fatherName" required value={formData.fatherName} onChange={handleChange} />
-                            <SketchyInput label="Mother's Name" name="motherName" required value={formData.motherName} onChange={handleChange} />
+                            <SketchyInput label="Name" name="studentName" required value={formData.studentName} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Father's Name" name="fatherName" required value={formData.fatherName} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Mother's Name" name="motherName" required value={formData.motherName} onChange={handleChange} disabled={readOnly} />
 
-                            <SketchyInput label="Address" name="address" fullWidth className="lg:col-span-3" value={formData.address} onChange={handleChange} />
+                            <SketchyInput label="Address" name="address" fullWidth className="lg:col-span-3" value={formData.address} onChange={handleChange} disabled={readOnly} />
 
-                            <SketchyInput label="City / Town" name="city" required value={formData.city} onChange={handleChange} />
-                            <SketchyInput label="Pin Code" name="pinCode" type="number" required value={formData.pinCode} onChange={handleChange} />
-                            <SketchyInput label="District" name="district" required value={formData.district} onChange={handleChange} />
+                            <SketchyInput label="City / Town" name="city" required value={formData.city} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Pin Code" name="pinCode" type="number" required value={formData.pinCode} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="District" name="district" required value={formData.district} onChange={handleChange} disabled={readOnly} />
 
-                            <SketchyInput label="State" name="state" required value={formData.state} onChange={handleChange} />
-                            <SketchyInput label="Country" name="country" disabled value={formData.country} onChange={handleChange} />
-                            <SketchyInput label="Nearest Landmark" name="landmark" value={formData.landmark} onChange={handleChange} />
+                            <SketchyInput label="State" name="state" required value={formData.state} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Country" name="country" disabled={true} value={formData.country} onChange={handleChange} />
+                            <SketchyInput label="Nearest Landmark" name="landmark" value={formData.landmark} onChange={handleChange} disabled={readOnly} />
 
-                            <SketchyInput label="Contact Number" name="contactNumber" type="tel" required value={formData.contactNumber} onChange={handleChange} />
-                            <SketchyInput label="Aadhaar Number" name="aadhaarNumber" required value={formData.aadhaarNumber} onChange={handleChange} />
-                            <SketchyInput label="Nationality" name="nationality" required value={formData.nationality} onChange={handleChange} />
+                            <SketchyInput label="Contact Number" name="contactNumber" type="tel" required value={formData.contactNumber} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Aadhaar Number" name="aadhaarNumber" required value={formData.aadhaarNumber} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Nationality" name="nationality" required value={formData.nationality} onChange={handleChange} disabled={readOnly} />
 
                             <SketchySelect label="Blood Group" name="bloodGroup" value={formData.bloodGroup} onChange={handleChange}
                                 options={["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]}
+                                disabled={readOnly}
                             />
-                            <SketchyInput label="Religion" name="religion" value={formData.religion} onChange={handleChange} />
-                            <SketchyInput label="Caste" name="caste" value={formData.caste} onChange={handleChange} />
+                            <SketchyInput label="Religion" name="religion" value={formData.religion} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Caste" name="caste" value={formData.caste} onChange={handleChange} disabled={readOnly} />
 
-                            <SketchyFileInput label="Student Photo" name="studentPhoto" required onChange={handleChange} accept="image/*" />
-                            <SketchyFileInput label="Signature" name="signature" onChange={handleChange} accept="image/*" />
+                            <SketchyFileInput label="Student Photo" name="studentPhoto" required={!readOnly} onChange={handleChange} accept="image/*" disabled={readOnly} />
+                            <SketchyFileInput label="Signature" name="signature" onChange={handleChange} accept="image/*" disabled={readOnly} />
 
-                            <SketchyInput label="Previous School & Address" name="previousSchool" fullWidth className="lg:col-span-3" value={formData.previousSchool} onChange={handleChange} />
-                            <SketchyInput label="Achievements" name="achievements" fullWidth className="lg:col-span-3" value={formData.achievements} onChange={handleChange} />
+                            <SketchyInput label="Previous School & Address" name="previousSchool" fullWidth className="lg:col-span-3" value={formData.previousSchool} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Achievements" name="achievements" fullWidth className="lg:col-span-3" value={formData.achievements} onChange={handleChange} disabled={readOnly} />
                         </div>
                     </section>
 
@@ -359,8 +441,8 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
                     <section className="space-y-8">
                         <SectionHeader title="2. Parent / Guardian Information" />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
-                            <SketchyInput label="Father's Aadhaar Number" name="fatherAadhaar" required value={formData.fatherAadhaar} onChange={handleChange} />
-                            <SketchyInput label="Mother's Aadhaar Number" name="motherAadhaar" required value={formData.motherAadhaar} onChange={handleChange} />
+                            <SketchyInput label="Father's Aadhaar Number" name="fatherAadhaar" required value={formData.fatherAadhaar} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Mother's Aadhaar Number" name="motherAadhaar" required value={formData.motherAadhaar} onChange={handleChange} disabled={readOnly} />
                         </div>
                     </section>
 
@@ -368,8 +450,8 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
                     <section className="space-y-8">
                         <SectionHeader title="3. Personal Details" />
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
-                            <SketchySelect label="Hobby" name="hobby" options={HOBBY_OPTIONS} value={formData.hobby} onChange={handleChange} />
-                            <SketchyInput label="Date of Birth" name="dob" type="date" required value={formData.dob} onChange={handleChange} />
+                            <SketchySelect label="Hobby" name="hobby" options={HOBBY_OPTIONS} value={formData.hobby} onChange={handleChange} disabled={readOnly} />
+                            <SketchyInput label="Date of Birth" name="dob" type="date" required value={formData.dob} onChange={handleChange} disabled={readOnly} />
                         </div>
                     </section>
 
@@ -389,33 +471,36 @@ export default function AdmissionForm({ onCancel, onSuccess, onSave }: Admission
                         </div>
                     </section>
 
-                    {/* Submit Button */}
-                    <div className="flex justify-center pt-8 pb-12 gap-4">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            type="button"
-                            onClick={() => onSave(formData)}
-                            className="group relative inline-flex items-center justify-center px-8 py-5 text-xl font-bold text-[#1e3a8a] transition-all duration-200"
-                        >
-                            <span className="relative flex items-center gap-3 tracking-wider">
-                                <Save size={20} /> SAVE AS DRAFT
-                            </span>
-                        </motion.button>
 
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            type="submit"
-                            className="group relative inline-flex items-center justify-center px-16 py-5 text-xl font-bold text-white transition-all duration-200"
-                        >
-                            <div className="absolute inset-0 border-2 border-[#1e3a8a] bg-[#1e3a8a] rounded-full transform rotate-1 group-hover:rotate-2 transition-transform h-full w-full"></div>
-                            <div className="absolute inset-0 border-2 border-black bg-transparent rounded-full transform -rotate-1 group-hover:-rotate-2 transition-transform h-full w-full"></div>
-                            <span className="relative flex items-center gap-3 tracking-wider">
-                                SUBMIT APPLICATION <Send size={20} />
-                            </span>
-                        </motion.button>
-                    </div>
+                    {/* Submit Button - Hidden in Read Only Mode */}
+                    {!readOnly && (
+                        <div className="flex justify-center pt-8 pb-12 gap-4">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                type="button"
+                                onClick={() => onSave(formData)}
+                                className="group relative inline-flex items-center justify-center px-8 py-5 text-xl font-bold text-[#1e3a8a] transition-all duration-200"
+                            >
+                                <span className="relative flex items-center gap-3 tracking-wider">
+                                    <Save size={20} /> SAVE AS DRAFT
+                                </span>
+                            </motion.button>
+
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                type="submit"
+                                className="group relative inline-flex items-center justify-center px-16 py-5 text-xl font-bold text-white transition-all duration-200"
+                            >
+                                <div className="absolute inset-0 border-2 border-[#1e3a8a] bg-[#1e3a8a] rounded-full transform rotate-1 group-hover:rotate-2 transition-transform h-full w-full"></div>
+                                <div className="absolute inset-0 border-2 border-black bg-transparent rounded-full transform -rotate-1 group-hover:-rotate-2 transition-transform h-full w-full"></div>
+                                <span className="relative flex items-center gap-3 tracking-wider">
+                                    SUBMIT APPLICATION <Send size={20} />
+                                </span>
+                            </motion.button>
+                        </div>
+                    )}
 
                 </form>
             </div>
@@ -504,7 +589,8 @@ const SketchySelect = ({
     options,
     required = false,
     className = "",
-    fullWidth = false
+    fullWidth = false,
+    disabled = false
 }: {
     label: string,
     name: string,
@@ -513,7 +599,8 @@ const SketchySelect = ({
     options: string[],
     required?: boolean,
     className?: string,
-    fullWidth?: boolean
+    fullWidth?: boolean,
+    disabled?: boolean
 }) => {
     const borderRadius = "255px 15px 225px 15px / 15px 225px 15px 255px";
 
@@ -528,7 +615,8 @@ const SketchySelect = ({
                     value={value}
                     onChange={onChange}
                     required={required}
-                    className="w-full bg-transparent border-2 border-black text-black px-6 py-3 pr-10 focus:outline-none focus:border-[#1e3a8a] transition-colors appearance-none cursor-pointer"
+                    disabled={disabled}
+                    className={`w-full bg-transparent border-2 border-black text-black px-6 py-3 pr-10 focus:outline-none focus:border-[#1e3a8a] transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
                     style={{
                         borderRadius: borderRadius,
                     }}
@@ -555,14 +643,16 @@ const SketchyFileInput = ({
     onChange,
     required = false,
     className = "",
-    accept = ""
+    accept = "",
+    disabled = false
 }: {
     label: string,
     name: string,
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     required?: boolean,
     className?: string,
-    accept?: string
+    accept?: string,
+    disabled?: boolean
 }) => {
     const borderRadius = "255px 15px 225px 15px / 15px 225px 15px 255px";
 
@@ -577,7 +667,8 @@ const SketchyFileInput = ({
                 onChange={onChange}
                 required={required}
                 accept={accept}
-                className="w-full bg-transparent border-2 border-black text-black px-6 py-3 focus:outline-none focus:border-[#1e3a8a] transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a8a] file:text-white hover:file:bg-blue-900 cursor-pointer"
+                disabled={disabled}
+                className={`w-full bg-transparent border-2 border-black text-black px-6 py-3 focus:outline-none focus:border-[#1e3a8a] transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a8a] file:text-white hover:file:bg-blue-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
                 style={{
                     borderRadius: borderRadius,
                 }}

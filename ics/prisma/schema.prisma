@@ -1,0 +1,57 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String?  // Optional because Google auth users won't have it initially
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Admission {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Student Info
+  studentName    String
+  fatherName     String
+  motherName     String
+  address        String?
+  city           String
+  pinCode        String
+  district       String
+  state          String
+  country        String   @default("India")
+  landmark       String?
+  contactNumber  String
+  aadhaarNumber  String
+  nationality    String
+  bloodGroup     String?
+  
+  // File paths or URLs
+  studentPhotoUrl String?
+  signatureUrl    String?
+
+  previousSchool String?
+  achievements   String?
+  religion       String?
+  caste          String?
+
+  // Parent Info
+  fatherAadhaar  String
+  motherAadhaar  String
+
+  // Personal Details
+  hobby          String?
+  dob            String 
+}
